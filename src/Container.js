@@ -5,7 +5,12 @@ import { toggleModal } from './actions';
 import ModalPage from './Modal';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
+const propTypes = {
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
+}
 
 const Container = ({ isOpen, toggle }) => (
   <Router>
@@ -19,6 +24,7 @@ const Container = ({ isOpen, toggle }) => (
   </Router>
 )
 
+Container.propTypes = propTypes
 
 const mapStateToProps = state => ({
   isOpen: state.isOpen
