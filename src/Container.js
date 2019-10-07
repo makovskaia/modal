@@ -1,17 +1,34 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Modal from './Modal'
+import { connect } from 'react-redux';
+import { toggleModal } from './actions';
+import ModalPage from './Modal';
+import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
 
-const Container = ({ isOpen, toggleModal }) => (
+
+const Container = ({ isOpen, toggle }) => (
   <Router>
     <div>
-      <input type="switch"/>
-      <Link to="/modal">
-        Next Screen
+      <Switch checked={isOpen} onChange={toggle} />
+      <Link to="/modal" style={{ all: 'unset' }}>
+        <Button>to modal</Button>
       </Link>
-      <Route path="/modal" component={Modal}/>
+      <Route path="/modal" component={props => <ModalPage {...props} isOpen={isOpen} toggle={toggle} />} />
     </div>
   </Router>
 )
 
-export default Container
+
+const mapStateToProps = state => ({
+  isOpen: state.isOpen
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggle: () => dispatch(toggleModal())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);
